@@ -1,11 +1,8 @@
 from django.shortcuts import render
-from rest_framework import generics
-from rest_framework.response import Response
-# Create your views here.
-from .models import Women
-from .serializers import WomenSerializer
 from rest_framework.views import APIView
-from django.forms import model_to_dict
+from rest_framework.response import Response
+from .models import Women
+
 
 
 class WomenAPIView(APIView):
@@ -16,12 +13,12 @@ class WomenAPIView(APIView):
 
 
 	def post(self, request):
-		post_new = Women.objects.create(
-				title=request.data["title"],
-				content=request.data["content"],
-				cat_id=request.data["cat_id"]
-			)
-		return Response({'post': model_to_dict(post_new)})
+		new_post = Women.objects.create(title=request.data["title"],
+										content=request.data["content"],
+										cat_id=request.data["cat_id"])
+		return Response({'title': 'H'})
+
+
 
 
 

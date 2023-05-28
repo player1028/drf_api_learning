@@ -3,7 +3,6 @@ from . import views
 
 
 
-
 urlpatterns = [
-	path('api/v1/womenlist/', views.WomenAPIView.as_view())
+	path('v1.0.0/womenlist/', views.WomenAPIView.as_view()),
 ]
