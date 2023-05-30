@@ -1,8 +1,9 @@
 from rest_framework.serializers import Serializer 
 from .models import Women
-from rest_framework.renderers import JSONRenderer
+from rest_framework.renderers import JSONRenderer 
+from rest_framework.parsers import JSONParser
 from rest_framework import serializers
-
+import io
 
 class WomenModel:
 	def __init__(self, title, content):
@@ -28,7 +29,9 @@ def encode():
 
 
 def decode():
-	stream = io.BytesIO(b"{'title':'Angelina Jolie','content':'Content: Angelina Jolie'}")
+	stream = io.BytesIO(b'{"title": "Angelina Jolie", "content": "Content: Angelina Jolie"}')
 	data = JSONParser().parse(stream)
 	serializer = WomenSerializer(data=data)
+	serializer.is_valid()
+	print(serializer.validated_data)
 	  
