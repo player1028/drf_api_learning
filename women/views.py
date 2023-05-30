@@ -2,22 +2,50 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Women
+from .serializers import WomenSerializer
 
 
 
 class WomenAPIView(APIView):
 
 	def get(self, request):
-		lst = Women.objects.all().values()
-		return Response({'posts': list(lst)})
+		w = Women.objects.all()
+		w = WomenSerializer(w, many=True)
+		return Response({"posts": w.data})
 
 
 	def post(self, request):
-		new_post = Women.objects.create(title=request.data["title"],
-										content=request.data["content"],
-										cat_id=request.data["cat_id"])
-		return Response({'title': 'H'})
+		serializer = WomenSerializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+		serializer.save()
+		return Response({"posts": serializer.data})
 
+
+	def put(self, request, *args, **kwargs):
+		pk = kwargs.get("pk", None)
+		if not pk:
+			return Reponse({"error": "Method PUT not allowed"})
+		try:
+			instance = Women.objects.get(pk=pk)
+		except:
+			return Reponse({"error": "Method PUT not allowed"})
+
+		serializer = WomenSerializer(data=request.data, instance=instance)
+		serializer.is_valid()
+		serializer.save()
+		return Response({"posts": serializer.data})
+
+
+	def delete(self, request, *args, **kwargs):
+		pk = kwargs.get("pk", None)
+		if not pk:
+			return Response({"error": "Method DELETE not allowed"})
+		try:
+			instance = Women.objects.get(pk=pk)
+			instance.delete()
+		except:
+			return Response({"error": "Method DELETE not allowed"})
+		return Response({"posts": "deleted posts " + str(pk)})
 
 
 
