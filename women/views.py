@@ -3,10 +3,36 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Women
 from .serializers import WomenSerializer
+from rest_framework import generics, viewsets
 
 
 
-class WomenAPIView(APIView):
+
+class WomenViewSet(viewsets.ReadOnlyModelViewSet):
+	queryset = Women.objects.all()
+	serializer_class = WomenSerializer
+
+
+
+
+'''class WomenAPIList(generics.ListCreateAPIView):
+	queryset = Women.objects.all()
+	serializer_class = WomenSerializer
+
+
+
+class WomenAPIUpdate(generics.UpdateAPIView):
+	queryset = Women.objects.all()
+	serializer_class = WomenSerializer
+
+
+class WomenAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Women.objects.all()
+	serializer_class = WomenSerializer'''
+
+
+
+'''class WomenAPIView(APIView):
 
 	def get(self, request):
 		w = Women.objects.all()
@@ -48,7 +74,7 @@ class WomenAPIView(APIView):
 		return Response({"posts": "deleted posts " + str(pk)})
 
 
-
+'''
 
 #class WomenAPIView(generics.ListAPIView):
 #	queryset = Women.objects.all()

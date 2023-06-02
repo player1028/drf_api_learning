@@ -1,8 +1,7 @@
-from rest_framework.serializers import Serializer 
+from rest_framework import serializers
 from .models import Women
 from rest_framework.renderers import JSONRenderer 
 from rest_framework.parsers import JSONParser
-from rest_framework import serializers
 import io
 
 #class WomenModel:
@@ -11,12 +10,12 @@ import io
 #		self.content = content
 
 
-
-
-class WomenSerializer(Serializer):
+class WomenSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Women
-		fields = ("title", "content", "cat")
+		fields = "__all__"
+
+
 
 
 
